@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pet Finder 🐾 — Pets</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="logo">Pet Finder 🐾</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pets.html">Find Pets</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="search-bar">
+      <input id="search" placeholder="Search by name, breed or location..." />
+      <select id="species">
+        <option value="">All species</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+        <option value="Other">Other</option>
+      </select>
+    </section>
+
+    <section id="pets-grid" class="pets-grid" aria-live="polite">
+      <!-- Pet cards injected here -->
+    </section>
+  </main>
+
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close" aria-label="Close">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Pet Finder 🐾</p>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
