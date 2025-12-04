@@ -307,7 +307,7 @@ if ($result) {
       transform: translateY(0);
     }
 
-    /* Floating Action Button */
+
     .fab-container {
       position: fixed;
       bottom: 30px;
@@ -392,7 +392,6 @@ if ($result) {
       opacity: 1;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .add-pet-modal-content {
         max-width: 95%;
@@ -429,7 +428,6 @@ if ($result) {
       }
     }
 
-    /* Custom Scrollbar */
     .add-pet-modal-content::-webkit-scrollbar {
       width: 8px;
     }
@@ -443,7 +441,6 @@ if ($result) {
       border-radius: 10px;
     }
 
-    /* Pet Cards Styling */
     .pets-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -525,7 +522,7 @@ if ($result) {
       }
     }
 
-    /* Status Badges */
+
     .status-badge {
       padding: 6px 12px;
       border-radius: 20px;
@@ -549,7 +546,7 @@ if ($result) {
       color: white;
     }
 
-    /* Action Buttons */
+
     .pet-actions {
       display: flex;
       gap: 10px;
@@ -596,6 +593,23 @@ if ($result) {
     .btn-action:active {
       transform: translateY(0);
     }
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.search-bar {
+    position: relative;
+}
   </style>
 </head>
 <body>
@@ -719,7 +733,6 @@ if ($result) {
     </section>
   </main>
 
-  <!-- Add Pet Modal -->
   <div class="add-pet-modal" id="addPetModal">
     <div class="add-pet-modal-content">
       <div class="modal-header">
@@ -730,13 +743,12 @@ if ($result) {
 
       <form id="addPetForm" method="POST" action="add_pet_handler.php" enctype="multipart/form-data">
         <div class="modal-body">
-          <!-- Pet Name -->
+
           <div class="form-group">
             <label for="petName">Pet Name <span class="required">*</span></label>
             <input type="text" id="petName" name="pet_name" placeholder="e.g., Buddy, Luna, Max" required>
           </div>
 
-          <!-- Species and Breed -->
           <div class="form-row">
             <div class="form-group">
               <label for="petSpecies">Species <span class="required">*</span></label>
@@ -758,7 +770,7 @@ if ($result) {
             </div>
           </div>
 
-          <!-- Age and Gender -->
+
           <div class="form-row">
             <div class="form-group">
               <label for="petAge">Age (years)</label>
@@ -776,25 +788,21 @@ if ($result) {
             </div>
           </div>
 
-          <!-- Description -->
           <div class="form-group">
             <label for="petDescription">Description <span class="required">*</span></label>
             <textarea id="petDescription" name="description" placeholder="Tell us about your pet's personality, behavior, health status, and why you're putting them up for adoption..." required></textarea>
           </div>
 
-          <!-- Location -->
           <div class="form-group">
             <label for="petLocation">Location <span class="required">*</span></label>
             <input type="text" id="petLocation" name="location" placeholder="e.g., Cebu City, Philippines" required>
           </div>
 
-          <!-- Contact Email -->
           <div class="form-group">
             <label for="contactEmail">Contact Email <span class="required">*</span></label>
             <input type="email" id="contactEmail" name="contact_email" placeholder="your.email@example.com" required>
           </div>
 
-          <!-- Image Upload -->
           <div class="form-group">
             <label>Pet Photo</label>
             <div class="image-upload-area" id="imageUploadArea">
@@ -820,7 +828,6 @@ if ($result) {
     </div>
   </div>
 
-  <!-- Floating Action Button -->
   <div class="fab-container">
     <button class="fab-button" onclick="openAddPetModal()">
       <span class="fab-icon">🐾</span>
@@ -833,7 +840,7 @@ if ($result) {
   </footer>
 
   <script>
-    // Modal Functions
+
     function openAddPetModal() {
       document.getElementById('addPetModal').classList.add('show');
       document.body.style.overflow = 'hidden';
@@ -853,14 +860,12 @@ if ($result) {
       }
     });
 
-    // Close with Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeAddPetModal();
       }
     });
 
-    // Image Upload
     const imageUploadArea = document.getElementById('imageUploadArea');
     const petImageInput = document.getElementById('petImage');
     const imagePreview = document.getElementById('imagePreview');
@@ -883,7 +888,7 @@ imagePreview.classList.add('show');
 reader.readAsDataURL(file);
 }
 });
-// Drag and drop
+
 imageUploadArea.addEventListener('dragover', function(e) {
   e.preventDefault();
   this.classList.add('drag-over');
@@ -909,9 +914,8 @@ function removeImage() {
   previewImg.src = '';
 }
 
-// Form submission - Let it submit naturally
 document.getElementById('addPetForm').addEventListener('submit', function(e) {
-  // Basic validation
+
   const petName = document.getElementById('petName').value.trim();
   const species = document.getElementById('petSpecies').value;
   const description = document.getElementById('petDescription').value.trim();
@@ -924,23 +928,138 @@ document.getElementById('addPetForm').addEventListener('submit', function(e) {
     return false;
   }
   
-  // Let form submit naturally to add_pet_handler.php
   return true;
 });
 
-// Mark pet as adopted
 function markAsAdopted(petId) {
   if (confirm('Mark this pet as adopted? This will remove it from available listings.')) {
     window.location.href = 'mark_adopted.php?id=' + petId;
   }
 }
 
-// Delete pet listing
 function confirmDelete(petId, petName) {
   if (confirm('Are you sure you want to delete "' + petName + '"?\n\nThis action cannot be undone!')) {
     window.location.href = 'delete_pet.php?id=' + petId;
   }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search');
+    const speciesFilter = document.getElementById('species');
+    const petsGrid = document.getElementById('pets-grid');
+    const petCards = Array.from(document.querySelectorAll('.pet-card'));
+
+    function filterPets() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedSpecies = speciesFilter.value.toLowerCase();
+
+        let visibleCount = 0;
+
+        petCards.forEach(card => {
+            const petName = card.querySelector('.pet-info h3').textContent.toLowerCase();
+            const petSpecies = card.querySelector('.pet-details p strong').nextSibling.textContent.toLowerCase().trim();
+            
+            let petBreed = '';
+            const breedElement = card.querySelector('.pet-details p:nth-child(2)');
+            if (breedElement && breedElement.textContent.includes('Breed:')) {
+                petBreed = breedElement.textContent.replace('Breed:', '').toLowerCase().trim();
+            }
+            
+            const locationElement = card.querySelector('.pet-meta p:first-child');
+            const petLocation = locationElement ? locationElement.textContent.toLowerCase() : '';
+            
+            const descriptionElement = card.querySelector('.pet-description');
+            const petDescription = descriptionElement ? descriptionElement.textContent.toLowerCase() : '';
+
+            const matchesSearch = searchTerm === '' || 
+                petName.includes(searchTerm) || 
+                petBreed.includes(searchTerm) || 
+                petLocation.includes(searchTerm) ||
+                petDescription.includes(searchTerm);
+
+
+            const matchesSpecies = selectedSpecies === '' || petSpecies.includes(selectedSpecies);
+
+            if (matchesSearch && matchesSpecies) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.4s ease';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+
+        showNoResultsMessage(visibleCount);
+    }
+
+
+    function showNoResultsMessage(visibleCount) {
+        const existingMessage = document.getElementById('no-results-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+
+        if (visibleCount === 0 && petCards.length > 0) {
+            const noResultsDiv = document.createElement('div');
+            noResultsDiv.id = 'no-results-message';
+            noResultsDiv.style.cssText = 'text-align: center; padding: 60px 20px; color: #7f8c8d; grid-column: 1 / -1;';
+            noResultsDiv.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 20px;">🔍</div>
+                <h2 style="color: var(--dark-text); margin-bottom: 10px;">No pets found</h2>
+                <p>Try adjusting your search or filters</p>
+            `;
+            petsGrid.appendChild(noResultsDiv);
+        }
+    }
+
+    searchInput.addEventListener('input', filterPets);
+    speciesFilter.addEventListener('change', filterPets);
+
+    searchInput.addEventListener('input', function() {
+        if (this.value) {
+            if (!document.getElementById('clear-search')) {
+                const clearBtn = document.createElement('button');
+                clearBtn.id = 'clear-search';
+                clearBtn.innerHTML = '✕';
+                clearBtn.style.cssText = `
+                    position: absolute;
+                    right: 12px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: rgba(124, 152, 179, 0.2);
+                    border: none;
+                    border-radius: 50%;
+                    width: 24px;
+                    height: 24px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    color: #7C98B3;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease;
+                `;
+                clearBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    this.remove();
+                    filterPets();
+                });
+                clearBtn.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(124, 152, 179, 0.4)';
+                });
+                clearBtn.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(124, 152, 179, 0.2)';
+                });
+                searchInput.parentElement.style.position = 'relative';
+                searchInput.parentElement.appendChild(clearBtn);
+            }
+        } else {
+            const clearBtn = document.getElementById('clear-search');
+            if (clearBtn) clearBtn.remove();
+        }
+    });
+});
 </script>
 </body>
 </html>
