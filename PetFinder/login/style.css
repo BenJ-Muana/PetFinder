@@ -1,11 +1,10 @@
 :root{
-  /* Updated to match login page colors */
-  --primary: #7C98B3;      /* Dusty blue from login */
-  --secondary: #E8B4C4;    /* Soft pink from login */
-  --accent: #A8D5E2;       /* Light blue from login */
-  --dark-text: #2C3E50;    /* Matching login text */
-  --muted: #95a5a6;        /* Soft gray */
-  --deep: #5d7a94;         /* Deeper blue */
+  --primary: #7C98B3;     
+  --secondary: #E8B4C4;  
+  --accent: #A8D5E2;       
+  --dark-text: #2C3E50;   
+  --muted: #95a5a6;        
+  --deep: #5d7a94;         
   --bg: #ffffff;
   --radius: 12px;
   --max-width: 1100px;
@@ -21,7 +20,6 @@
 body {
   margin: 0;
   color: var(--dark-text);
-  /* Matching the exact gradient from login page */
   background: linear-gradient(180deg, #A8D5E2 0%, #7C98B3 50%, #E8B4C4 100%);
   background-attachment: fixed;
   min-height: 100vh;
@@ -29,7 +27,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Navigation */
 .nav {
   display: flex;
   justify-content: space-between;
@@ -73,7 +70,6 @@ body {
   color: var(--primary);
 }
 
-/* Hero Section */
 .hero {
   padding: 60px 20px;
   text-align: center;
@@ -102,7 +98,6 @@ body {
   line-height: 1.6;
 }
 
-/* Buttons */
 .btn {
   display: inline-block;
   padding: 14px 32px;
@@ -127,14 +122,12 @@ body {
   transform: translateY(0);
 }
 
-/* Container */
 .container {
   max-width: var(--max-width);
   margin: 40px auto;
   padding: 0 20px;
 }
 
-/* Features Section */
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -167,7 +160,7 @@ body {
   line-height: 1.6;
 }
 
-/* Search Bar */
+
 .search-bar {
   display: flex;
   gap: 12px;
@@ -196,7 +189,6 @@ body {
   box-shadow: 0 0 0 4px rgba(124, 152, 179, 0.15);
 }
 
-/* Pets Grid */
 .pets-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -239,7 +231,7 @@ body {
   line-height: 1.5;
 }
 
-/* Card Actions */
+
 .card-actions {
   display: flex;
   gap: 10px;
@@ -283,7 +275,6 @@ body {
   box-shadow: 0 6px 16px rgba(124, 152, 179, 0.3);
 }
 
-/* Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -336,9 +327,8 @@ body {
   color: var(--primary);
 }
 
-/* Footer */
 .footer {
-  padding: 32px 20px;
+  padding: 20px 10px;
   text-align: center;
   color: var(--deep);
   margin-top: 60px;
@@ -364,7 +354,6 @@ body {
   text-decoration: underline;
 }
 
-/* Welcome Message */
 body > h1 {
   text-align: center;
   padding: 20px;
@@ -375,7 +364,6 @@ body > h1 {
   font-size: 1.5rem;
 }
 
-/* Logout Link */
 body > p {
   text-align: center;
   padding: 10px;
@@ -398,7 +386,6 @@ body > p a:hover {
   transform: translateY(-2px);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .hero {
     padding: 40px 16px;
@@ -453,7 +440,6 @@ body > p a:hover {
   }
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -471,12 +457,10 @@ body > p a:hover {
   background: linear-gradient(135deg, #6a8499, #d9a1b3);
 }
 
-/* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Loading State */
 .loading {
   text-align: center;
   padding: 40px;
@@ -484,7 +468,6 @@ html {
   font-size: 1.1rem;
 }
 
-/* Empty State */
 .no-results {
   text-align: center;
   padding: 60px 20px;
@@ -503,3 +486,4 @@ html {
   color: var(--deep);
   font-size: 1rem;
 }
+

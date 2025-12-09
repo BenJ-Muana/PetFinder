@@ -1,29 +1,34 @@
 <?php
+// session and database setup
 session_start();
-
 $connection = mysqli_connect("localhost", "root", "", "petfinder_db");
 if (!$connection) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
+// Control variables for UI and error handling
 $show_signin = false;
 $registration_success = false;
 $error_message = '';
 $error_type = '';
 
-// ===== SIGN UP =====
+// ✅ CREATE - USER REGISTRATION 
 if (isset($_POST['signUp'])) {
+    // Sanitize inputs to prevent SQL injection
     $first = mysqli_real_escape_string($connection, $_POST['fName']);
     $last  = mysqli_real_escape_string($connection, $_POST['lName']);
     $email = mysqli_real_escape_string($connection, $_POST['email']);
-    $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $pass  = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash password for security
 
+    // 📖 READ - Check if email already exists
     $check_query = "SELECT * FROM users WHERE email='$email'";
     $check_result = mysqli_query($connection, $check_query);
+    
     if (mysqli_num_rows($check_result) > 0) {
         $error_message = 'This email is already registered. Please use a different email or try logging in.';
         $error_type = 'email_exists';
     } else {
+        // ✅ CREATE - Insert new user into database
         $query = "INSERT INTO users (first_name, last_name, email, password) VALUES ('$first', '$last', '$email', '$pass')";
         if (mysqli_query($connection, $query)) {
             $registration_success = true;
@@ -35,17 +40,21 @@ if (isset($_POST['signUp'])) {
     }
 }
 
-// ===== SIGN IN =====
+// 📖 READ - USER LOGIN (AUTHENTICATION)
 if (isset($_POST['signIn'])) {
     $email = mysqli_real_escape_string($connection, $_POST['email']);
     $pass  = $_POST['password'];
 
+    // 📖 READ - Fetch user from database by email
     $query = "SELECT * FROM users WHERE email='$email'";
     $result = mysqli_query($connection, $query);
 
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
+        
+        // Verify password against hashed password in database
         if (password_verify($pass, $user['password'])) {
+            // Create session for logged-in user
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['first_name'];
             header("Location: home.php");
@@ -69,8 +78,9 @@ if (isset($_POST['signIn'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetFinder - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"/>
     <style>
-        /* ==================== SUCCESS POPUP ==================== */
+        
         .success-popup {
             position: fixed;
             top: 0;
@@ -198,7 +208,7 @@ if (isset($_POST['signIn'])) {
             box-shadow: 0 12px 30px rgba(124, 152, 179, 0.45);
         }
 
-        /* ==================== ERROR POPUP ==================== */
+      
         .error-popup {
             position: fixed;
             top: 0;
@@ -840,7 +850,7 @@ if (isset($_POST['signIn'])) {
     </style>
 </head>
 <body>
-    <!-- Success Popup -->
+    <!-- ==================== SUCCESS POPUP (Shown after registration) ==================== -->
     <div class="success-popup" id="successPopup">
         <div class="success-popup-content">
             <div class="success-icon"></div>
@@ -850,7 +860,7 @@ if (isset($_POST['signIn'])) {
         </div>
     </div>
 
-    <!-- Error Popup -->
+    <!-- ==================== ERROR POPUP (Shown on login/registration errors) ==================== -->
     <div class="error-popup" id="errorPopup">
         <div class="error-popup-content">
             <div class="error-icon"></div>
@@ -860,9 +870,10 @@ if (isset($_POST['signIn'])) {
         </div>
     </div>
 
-    <!-- Sign Up Form -->
+    <!-- ==================== SIGN UP FORM ==================== -->
     <div class="container" id="signup">
        <h1 class="form-title">Register</h1>
+       <!-- Form submits to same page (index.php) for processing -->
        <form method="post" action="">
         <div class="input-group">
             <input type="text" name="fName" id="fName" placeholder="First Name" required>
@@ -884,24 +895,22 @@ if (isset($_POST['signIn'])) {
             <label for="password-signup">Password</label>
             <i class="fas fa-lock"></i>
         </div>
+        <!-- Submit button triggers PHP CREATE operation -->
         <input type="submit" class="btn" value="Sign Up" name="signUp">
-        <p class="or">
-            ----------or----------
-        </p>
-        <div class="icons">
-            <i class="fab fa-google"></i>
-            <i class="fab fa-facebook"></i>
-        </div>
+        <p class="or"></p>
+        <div class="icons"></div>
         <div class="links">
             <p>Already Have Account?</p>
+            <!-- Switch to sign-in form -->
             <button type="button" id="signInButton">Sign In</button>
         </div>
        </form>
     </div>
 
-    <!-- Sign In Form -->
+    <!-- ==================== SIGN IN FORM ==================== -->
     <div class="container" id="signIn">
        <h1 class="form-title">Sign In</h1>
+    
        <form method="post" action="">
         <div class="input-group">
             <input type="email" name="email" id="email-signin" placeholder="Email" required>
@@ -913,45 +922,41 @@ if (isset($_POST['signIn'])) {
             <label for="password-signin">Password</label>
             <i class="fas fa-lock"></i>
         </div>
-        <p class="recover">
-            <a href="#">Recover Password</a>
-        </p>
+        <!-- Submit button triggers PHP READ operation for authentication -->
         <input type="submit" class="btn" value="Sign In" name="signIn">
-        <p class="or">
-            ----------or----------
-        </p>
-        <div class="icons">
-            <i class="fab fa-google"></i>
-            <i class="fab fa-facebook"></i>
-        </div>
+        <p class="or"></p>
+        <div class="icons"></div>
         <div class="links">
             <p>Don't Have Account Yet?</p>
+            <!-- Switch to sign-up form -->
             <button type="button" id="signUpButton">Sign Up</button>
         </div>
        </form>
     </div>
 
+    <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // Show success popup if registration was successful
+        // Show success popup if PHP set $registration_success to true
         <?php if ($registration_success): ?>
             window.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('successPopup').classList.add('show');
             });
         <?php endif; ?>
 
-        // Show error popup if there's an error
+        // Show error popup if PHP set an error message
         <?php if (!empty($error_message)): ?>
             window.addEventListener('DOMContentLoaded', function() {
                 showErrorPopup('<?php echo addslashes($error_message); ?>', '<?php echo $error_type; ?>');
             });
         <?php endif; ?>
 
+        // Display error popup with dynamic title based on error type
         function showErrorPopup(message, type) {
             const errorPopup = document.getElementById('errorPopup');
             const errorTitle = document.getElementById('errorTitle');
             const errorMessage = document.getElementById('errorMessage');
             
-            // Customize title based on error type
+            // Set custom title for different error types
             switch(type) {
                 case 'wrong_password':
                     errorTitle.textContent = 'Wrong Password!';
@@ -970,20 +975,24 @@ if (isset($_POST['signIn'])) {
             errorPopup.classList.add('show');
         }
 
+        // Close success popup
         function closeSuccessPopup() {
             document.getElementById('successPopup').classList.remove('show');
         }
 
+        // Close error popup
         function closeErrorPopup() {
             document.getElementById('errorPopup').classList.remove('show');
         }
 
+        // Form switching logic with animations
         document.addEventListener('DOMContentLoaded', function() {
             const signUpContainer = document.getElementById('signup');
             const signInContainer = document.getElementById('signIn');
             const signUpButton = document.getElementById('signUpButton');
             const signInButton = document.getElementById('signInButton');
 
+            // Switch from sign-in to sign-up form
             function showSignUp() {
                 signInContainer.classList.add('fade-out');
                 setTimeout(() => {
@@ -995,6 +1004,7 @@ if (isset($_POST['signIn'])) {
                 }, 400);
             }
 
+            // Switch from sign-up to sign-in form
             function showSignIn() {
                 signUpContainer.classList.add('fade-out');
                 setTimeout(() => {
@@ -1006,6 +1016,7 @@ if (isset($_POST['signIn'])) {
                 }, 400);
             }
 
+            // Attach click handlers to form toggle buttons
             signUpButton.addEventListener('click', (e) => { e.preventDefault(); showSignUp(); });
             signInButton.addEventListener('click', (e) => { e.preventDefault(); showSignIn(); });
         });
