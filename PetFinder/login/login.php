@@ -934,7 +934,6 @@ if (isset($_POST['signIn'])) {
        </form>
     </div>
 
-    <!-- ==================== JAVASCRIPT ==================== -->
     <script>
         // Show success popup if PHP set $registration_success to true
         <?php if ($registration_success): ?>
