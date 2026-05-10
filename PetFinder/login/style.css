@@ -27,6 +27,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ==================== NAVIGATION ==================== */
 .nav {
   display: flex;
   justify-content: space-between;
@@ -70,6 +71,7 @@ body {
   color: var(--primary);
 }
 
+/* ==================== HERO ==================== */
 .hero {
   padding: 60px 20px;
   text-align: center;
@@ -98,6 +100,7 @@ body {
   line-height: 1.6;
 }
 
+/* ==================== BUTTONS ==================== */
 .btn {
   display: inline-block;
   padding: 14px 32px;
@@ -122,12 +125,14 @@ body {
   transform: translateY(0);
 }
 
+/* ==================== LAYOUT ==================== */
 .container {
   max-width: var(--max-width);
   margin: 40px auto;
   padding: 0 20px;
 }
 
+/* ==================== HOME FEATURE CARDS ==================== */
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -160,7 +165,7 @@ body {
   line-height: 1.6;
 }
 
-
+/* ==================== SEARCH BAR ==================== */
 .search-bar {
   display: flex;
   gap: 12px;
@@ -189,6 +194,7 @@ body {
   box-shadow: 0 0 0 4px rgba(124, 152, 179, 0.15);
 }
 
+/* ==================== PETS GRID ==================== */
 .pets-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -231,102 +237,7 @@ body {
   line-height: 1.5;
 }
 
-
-.card-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.btn-outline {
-  flex: 1;
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 2px solid var(--secondary);
-  background: transparent;
-  color: var(--secondary);
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-.btn-outline:hover {
-  background: var(--secondary);
-  color: white;
-  transform: translateY(-2px);
-}
-
-.btn-primary {
-  flex: 1;
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 0;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(124, 152, 179, 0.3);
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 1000;
-}
-
-.modal[aria-hidden="false"] {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-content {
-  background: white;
-  border-radius: 16px;
-  padding: 32px;
-  width: clamp(320px, 90%, 720px);
-  max-height: 85vh;
-  overflow: auto;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.modal-close {
-  background: transparent;
-  border: 0;
-  font-size: 28px;
-  position: absolute;
-  right: 20px;
-  top: 16px;
-  cursor: pointer;
-  color: var(--muted);
-  transition: color 0.3s ease;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-}
-
-.modal-close:hover {
-  background: rgba(124, 152, 179, 0.1);
-  color: var(--primary);
-}
-
+/* ==================== FOOTER ==================== */
 .footer {
   padding: 20px 10px;
   text-align: center;
@@ -354,38 +265,7 @@ body {
   text-decoration: underline;
 }
 
-body > h1 {
-  text-align: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  margin: 0;
-  color: var(--dark-text);
-  font-size: 1.5rem;
-}
-
-body > p {
-  text-align: center;
-  padding: 10px;
-}
-
-body > p a {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 600;
-  padding: 8px 20px;
-  border: 2px solid var(--primary);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
-
-body > p a:hover {
-  background: var(--primary);
-  color: white;
-  transform: translateY(-2px);
-}
-
+/* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
   .hero {
     padding: 40px 16px;
@@ -431,15 +311,12 @@ body > p a:hover {
     font-size: 1.2rem;
   }
 
-  .modal-content {
-    padding: 24px;
-  }
-
   .feature-card {
     padding: 20px;
   }
 }
 
+/* ==================== SCROLLBAR ==================== */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -459,30 +336,4 @@ body > p a:hover {
 
 html {
   scroll-behavior: smooth;
-}
-
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: var(--deep);
-  font-size: 1.1rem;
-}
-
-.no-results {
-  text-align: center;
-  padding: 60px 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  margin: 40px 0;
-}
-
-.no-results h3 {
-  color: var(--primary);
-  margin-bottom: 12px;
-  font-size: 1.5rem;
-}
-
-.no-results p {
-  color: var(--deep);
-  font-size: 1rem;
 }
